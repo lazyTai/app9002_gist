@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>upload</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div action="" method="POST">
+            <input type="file" ref="myfile" />
+            <input type="text" name="token" :value="token" />
+            <button type="submit" @click="uploadFile">submit</button>
+        </div>
+    </div>
+
+    <script>
+        function uploadFileFetch(file) {
+            var self = this;
+            var data = new FormData()
+            data.append('file', file);
+            data.append('key', file.name);
+            data.append('token', self.$data.token);
+
+            return axios({
+                method: "post",
+                url: "http://upload-z0.qiniup.com",
+                data,
+            }).then(function (response) {
+                console.log(response);
+                return response
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+        function getToken() {
+            return axios.get('/file/qiniu-token')
+                .then(function (response) {
+                    console.log(response);
+                    return response
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        var app2 = new Vue({
+            el: '#app',
+            data: {
+                token: "",
+                message: '页面加载于 ' + new Date().toLocaleString()
+            },
+            methods: {
+                uploadFile() {
+                    var file = this.$refs.myfile.files[0]
+                    uploadFileFetch.call(this, file).then(res => {
+                    })
+                }
+            },
+            mounted() {
+                var self = this;
+                getToken().then(res => {
+                    var token = res.data['qiniu-token']
+                    self.$data.token = token
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>

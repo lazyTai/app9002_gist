@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_general_ci">d_gist_9002</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="t_gist" view="colnames">
+<left>113</left>
+<top>164</top>
+<width>174</width>
+<height>235</height>
+<sql_create_table>CREATE TABLE `t_gist` (
+  `id` int(200) NOT NULL AUTO_INCREMENT,
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `title` varchar(200) DEFAULT NULL,
+  `content` text,
+  `group_id` int(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
